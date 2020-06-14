@@ -3,6 +3,8 @@
   "displayName": "Paste Relative Path",
   "description": "When an absolute file path is on the clipboard, pastes the path relative to the current file.",
   "version": "0.0.1",
+  "publisher": "brokensandals",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.46.0"
   },

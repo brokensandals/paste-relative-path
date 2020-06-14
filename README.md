@@ -10,3 +10,7 @@ For example, if you copy the text `/foo/alpha/file1.md` onto the clipboard, then
 ### 1.0.0
 
 Initial release.
+
+## License
+
+This is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

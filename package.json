@@ -2,7 +2,7 @@
   "name": "paste-relative-path",
   "displayName": "Paste Relative Path",
   "description": "When an absolute file path is on the clipboard, pastes the path relative to the current file.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "brokensandals",
   "license": "MIT",
   "engines": {
@@ -12,8 +12,8 @@
     "Other"
   ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/brokensandals/paste-relative-path.git"
+    "type": "git",
+    "url": "https://github.com/brokensandals/paste-relative-path.git"
   },
   "activationEvents": [
     "onCommand:paste-relative-path.paste"

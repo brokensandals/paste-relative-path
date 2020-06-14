@@ -10,14 +10,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:paste-relative-path.helloWorld"
+		"onCommand:paste-relative-path.paste"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "paste-relative-path.helloWorld",
-				"title": "Hello World"
+				"command": "paste-relative-path.paste",
+				"title": "Paste Relative Path"
 			}
 		]
 	},

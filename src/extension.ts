@@ -1,23 +1,41 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as path from 'path';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	let disposable = vscode.commands.registerCommand('paste-relative-path.paste', () => {
+		vscode.env.clipboard.readText().then((value: string) => {
+			const active = vscode.window.activeTextEditor;
+			if (!active) {
+				return;
+			}
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "paste-relative-path" is now active!');
+			const activePath = active.document.fileName;
+			const relPath = path.relative(activePath, value);
+			let finalPath: string;
+			if (relPath === '') {
+				// The path on the clipboard is the same file we're pasting into.
+				finalPath = '.';
+			} else if (relPath.startsWith('..' + path.sep)) {
+				// Given source path "/a/b/c.md" and dest path "/a/b/d.md",
+				// path.relative returns "../d.md". But generally you really want
+				// the path relative to the directory _containing_ c.md - that's
+				// what you would put in a hyperlink href, for example. So, we
+				// remove the first '..' path component.
+				finalPath = relPath.slice(3);
+			} else {
+				finalPath = relPath;
+			}
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('paste-relative-path.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Paste Relative Path!');
+			active.edit((eb: vscode.TextEditorEdit) => {
+				active.selections.forEach((selection: vscode.Selection) => {
+					if (selection.isEmpty) {
+						eb.insert(selection.active, finalPath);
+					} else {
+						eb.replace(selection, finalPath);
+					}
+				});
+			});
+		});
 	});
 
 	context.subscriptions.push(disposable);

@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -9,30 +10,44 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      const activePath = active.document.fileName;
-      const relPath = path.relative(activePath, value);
-      let finalPath: string;
-      if (relPath === '') {
-        // The path on the clipboard is the same file we're pasting into.
-        finalPath = '.';
-      } else if (relPath.startsWith('..' + path.sep)) {
-        // Given source path "/a/b/c.md" and dest path "/a/b/d.md",
-        // path.relative returns "../d.md". But generally you really want
-        // the path relative to the directory _containing_ c.md - that's
-        // what you would put in a hyperlink href, for example. So, we
-        // remove the first '..' path component.
-        finalPath = relPath.slice(3);
-      } else {
-        finalPath = relPath;
-      }
+      fs.realpath(value, (err, realTargetPath) => {
+        if (err) {
+          vscode.window.showErrorMessage(`Error converting ${value} to real path: ${err}`);
+          return;
+        }
 
-      active.edit((eb: vscode.TextEditorEdit) => {
-        active.selections.forEach((selection: vscode.Selection) => {
-          if (selection.isEmpty) {
-            eb.insert(selection.active, finalPath);
-          } else {
-            eb.replace(selection, finalPath);
+        const activePath = active.document.fileName;
+        fs.realpath(activePath, (err, realActivePath) => {
+          if (err) {
+            vscode.window.showErrorMessage(`Error converting ${activePath} to real path: ${err}`);
+            return;
           }
+
+          const relPath = path.relative(realActivePath, realTargetPath);
+          let finalPath: string;
+          if (relPath === '') {
+            // The path on the clipboard is the same file we're pasting into.
+            finalPath = '.';
+          } else if (relPath.startsWith('..' + path.sep)) {
+            // Given source path "/a/b/c.md" and dest path "/a/b/d.md",
+            // path.relative returns "../d.md". But generally you really want
+            // the path relative to the directory _containing_ c.md - that's
+            // what you would put in a hyperlink href, for example. So, we
+            // remove the first '..' path component.
+            finalPath = relPath.slice(3);
+          } else {
+            finalPath = relPath;
+          }
+
+          active.edit((eb: vscode.TextEditorEdit) => {
+            active.selections.forEach((selection: vscode.Selection) => {
+              if (selection.isEmpty) {
+                eb.insert(selection.active, finalPath);
+              } else {
+                eb.replace(selection, finalPath);
+              }
+            });
+          });
         });
       });
     });

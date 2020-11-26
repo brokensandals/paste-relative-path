@@ -12,9 +12,18 @@ The title of the target document can currently only be guessed if its file exten
 
 ## Release Notes
 
-### 1.0.0
+## 1.2.0
 
-Initial release.
+- Add 'Paste Relative Path as Markdown' command
+- Refactoring
+
+## 1.1.0
+
+- Resolve symlinks before calculating relative path
+
+## 1.0.0
+
+- Initial release
 
 ## License
 

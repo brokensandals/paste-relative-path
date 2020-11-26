@@ -4,7 +4,7 @@ All notable changes to the "paste-relative-path" extension will be documented in
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## Unreleased
+## 1.2.0
 
 - Add 'Paste Relative Path as Markdown' command
 - Refactoring

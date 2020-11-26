@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as util from 'util';
+import * as yaml from 'js-yaml';
 
 const realpath = util.promisify(fs.realpath);
 const readFile = util.promisify(fs.readFile);
@@ -23,13 +24,37 @@ function refPath(src: string, dest: string) {
   }
 }
 
-async function getTitle(filePath: string) {
+const YAML_META_RE = /^---\n(.*?)\n(---|\.\.\.)\s*$/ms;
+const HEADER_RE = /^#\s+(.+)\s*$/m;
+async function getMarkdownTitle(filePath: string) {
   try {
-    const text = await readFile(filePath, 'utf8');
-    // TODO
+    let text = await readFile(filePath, 'utf8');
+    const metaMatch = YAML_META_RE.exec(text);
+    if (metaMatch) {
+      try {
+        const meta: any = yaml.safeLoad(metaMatch[1]);
+        if (typeof meta === 'object' && meta?.title) {
+          return meta.title;
+        }
+      } catch (e) {
+      }
+      text = text.replace(metaMatch[0], '');
+    }
+    const headerMatch = HEADER_RE.exec(text);
+    if (headerMatch) {
+      return headerMatch[1];
+    }
   } catch (e) {
-    return null;
   }
+  return null;
+}
+
+async function getTitle(filePath: string) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === '.md' || ext === '.markdown') {
+    return await getMarkdownTitle(filePath);
+  }
+  return null;
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -54,7 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
   })().catch((e) => {
     vscode.window.showErrorMessage(`${e}`);
-  })});
+  });});
   context.subscriptions.push(disposable);
 
   disposable = vscode.commands.registerCommand('paste-relative-path.paste-markdown', () => {(async () => {
@@ -67,7 +92,7 @@ export function activate(context: vscode.ExtensionContext) {
     const realSrc = await realpath(rawSrc);
     const href = encodeURIComponent(refPath(realSrc, realDest));
 
-    let title = path.basename(realDest).replace(/\..*/, '');
+    let title = (await getTitle(realDest)) || path.basename(realDest).replace(/\..*/, '');
 
     await vscode.window.activeTextEditor?.edit((eb) => {
       vscode.window.activeTextEditor?.selections?.forEach((selection) => {
@@ -81,7 +106,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
   })().catch((e) => {
     vscode.window.showErrorMessage(`${e}`);
-  })});
+  });});
   context.subscriptions.push(disposable);
 }
 

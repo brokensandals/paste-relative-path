@@ -6,6 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## Unreleased
 
+- Add 'Paste Relative Path as Markdown' command
 - Refactoring
 
 ## 1.1.0

@@ -16,7 +16,8 @@
     "url": "https://github.com/brokensandals/paste-relative-path.git"
   },
   "activationEvents": [
-    "onCommand:paste-relative-path.paste"
+    "onCommand:paste-relative-path.paste",
+    "onCommand:paste-relative-path.paste-markdown"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -24,6 +25,10 @@
       {
         "command": "paste-relative-path.paste",
         "title": "Paste Relative Path"
+      },
+      {
+        "command": "paste-relative-path.paste-markdown",
+        "title": "Past Relative Path as Markdown Link"
       }
     ]
   },

@@ -12,6 +12,10 @@ The title of the target document can currently only be guessed if its file exten
 
 ## Release Notes
 
+## 1.2.1
+
+- Fix excessive percent-encoding when pasting Markdown links
+
 ## 1.2.0
 
 - Add 'Paste Relative Path as Markdown' command

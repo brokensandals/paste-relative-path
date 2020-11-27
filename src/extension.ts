@@ -90,7 +90,7 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
     const realSrc = await realpath(rawSrc);
-    const href = encodeURIComponent(refPath(realSrc, realDest));
+    const href = refPath(realSrc, realDest).split(path.sep).map(encodeURIComponent).join(path.sep);
 
     let title = (await getTitle(realDest)) || path.basename(realDest).replace(/\..*/, '');
 

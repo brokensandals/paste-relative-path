@@ -14,7 +14,7 @@ The title of the target document can currently only be guessed if its file exten
 
 ## Release Notes
 
-## Unreleased
+## 1.3.0
 
 - Add option to disable reading titles of Markdown files.
 

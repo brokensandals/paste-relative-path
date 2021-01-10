@@ -10,7 +10,13 @@ If you run the command with text already selected, the selected text becomes a l
 If you run the command without any text selected, a new link is inserted and the text is either the title of the target document (if it can be determined) or the filename of the target.
 The title of the target document can currently only be guessed if its file extension is `.md` or `.markdown` and it contains either a YAML metadata block with a `title` field, or a top-level markdown heading (eg `# Foo`).
 
+(If you never want to use the title for the link text, set the config `pasteRelativePath.useTitleForMarkdownLinks` to `false`.)
+
 ## Release Notes
+
+## Unreleased
+
+- Add option to disable reading titles of Markdown files.
 
 ## 1.2.1
 

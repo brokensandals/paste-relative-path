@@ -4,6 +4,10 @@ All notable changes to the "paste-relative-path" extension will be documented in
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## Unreleased
+
+- Add option to disable reading titles of Markdown files.
+
 ## 1.2.1
 
 - Fix excessive percent-encoding when pasting Markdown links

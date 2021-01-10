@@ -92,7 +92,8 @@ export function activate(context: vscode.ExtensionContext) {
     const realSrc = await realpath(rawSrc);
     const href = refPath(realSrc, realDest).split(path.sep).map(encodeURIComponent).join(path.sep);
 
-    let title = (await getTitle(realDest)) || path.basename(realDest).replace(/\..*/, '');
+    let useTitle = vscode.workspace.getConfiguration('pasteRelativePath').get('useTitleForMarkdownLinks') === true;
+    let title = (useTitle && await getTitle(realDest)) || path.basename(realDest).replace(/\..*/, '');
 
     await vscode.window.activeTextEditor?.edit((eb) => {
       vscode.window.activeTextEditor?.selections?.forEach((selection) => {

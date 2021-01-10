@@ -30,7 +30,17 @@
         "command": "paste-relative-path.paste-markdown",
         "title": "Paste Relative Path as Markdown Link"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Paste Relative Path",
+      "properties": {
+        "pasteRelativePath.useTitleForMarkdownLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "If true, the Paste Relative Path as Markdown Link command will read the target file and attempt to see if it contains a title. If a title is found, that is used as the link text. If no title is found or if this setting is false, the the filename is used as the link text."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

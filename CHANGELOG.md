@@ -4,6 +4,10 @@ All notable changes to the "paste-relative-path" extension will be documented in
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.4.0
+
+- Add commands to the editor context menu. There is a setting to disable this if you don't like it.
+
 ## 1.3.0
 
 - Add option to disable reading titles of Markdown files.

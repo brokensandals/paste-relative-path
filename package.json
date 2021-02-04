@@ -38,8 +38,27 @@
           "type": "boolean",
           "default": true,
           "description": "If true, the Paste Relative Path as Markdown Link command will read the target file and attempt to see if it contains a title. If a title is found, that is used as the link text. If no title is found or if this setting is false, the the filename is used as the link text."
+        },
+        "pasteRelativePath.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "description": "If true, the Paste Relative Path command will be shown in the right-click menu of all editors, and Paste Relative Path as Markdown Link will be shown in the right-click menu of markdown editors."
         }
       }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "when": "config.pasteRelativePath.showInEditorContextMenu",
+          "command": "paste-relative-path.paste",
+          "group": "9_cutcopypaste_pasterelativepath"
+        },
+        {
+          "when": "resourceLangId == markdown && config.pasteRelativePath.showInEditorContextMenu",
+          "command": "paste-relative-path.paste-markdown",
+          "group": "9_cutcopypaste_pasterelativepath"
+        }
+      ]
     }
   },
   "scripts": {

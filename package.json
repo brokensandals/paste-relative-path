@@ -2,7 +2,7 @@
   "name": "paste-relative-path",
   "displayName": "Paste Relative Path",
   "description": "When an absolute file path is on the clipboard, pastes the path relative to the current file.",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "publisher": "brokensandals",
   "license": "MIT",
   "engines": {
